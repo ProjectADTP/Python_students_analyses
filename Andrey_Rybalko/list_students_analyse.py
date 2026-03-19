@@ -1,4 +1,5 @@
 SUCCESS_THRESHOLD = 75
+
 def create_student_list():
     students = [
         {"name": "Maxim", "grades": [60, 75, 68, 90, 87]},
@@ -12,7 +13,10 @@ def create_student_list():
 
 
 def add_new_student(student, students):
-    students.append(student)
+    try:
+        students.append(student)
+    except ValueError:
+        print("Ошибка! Неверный формат данных!")
 
 
 def remove_worst_student(students):
@@ -45,6 +49,9 @@ def calculate_average_grade(grades):
         return sum(grades) / len(grades)
     except ZeroDivisionError:
         print("Внимание, попытка деления на 0!")
+        return 0
+    except TypeError:
+        print("Ошибка! Неверный формат данных!")
         return 0
 
 
