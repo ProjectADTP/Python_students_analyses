@@ -1,22 +1,30 @@
 SUCCESS_THRESHOLD = 75
+def create_student_list():
+    students = [
+        {"name": "Maxim", "grades": [60, 75, 68, 90, 87]},
+        {"name": "Albert", "grades": [76, 63, 84, 61, 67]},
+        {"name": "Andrey", "grades": [69, 69, 70, 69, 72]},
+        {"name": "Alexander", "grades": [75, 75, 75, 75, 75]},
+        {"name": "Ilona", "grades": [85, 65, 60, 77, 87]},
+    ]
 
-def add_new_student(student):
+    return students
+
+
+def add_new_student(student, students):
     students.append(student)
 
 
-def remove_worst_student():
+def remove_worst_student(students):
     if not students:
         print("В списке нет студентов для удаления!")
 
         return
     else:
-        students.remove(find_worst_student())
+        students.remove(find_worst_student(students))
 
 
-def is_student_successful(average_grade):
-    return average_grade >= SUCCESS_THRESHOLD
-
-def find_worst_student():
+def find_worst_student(students):
     if not students:
         return None
 
@@ -40,7 +48,7 @@ def calculate_average_grade(grades):
         return 0
 
 
-def calculate_overall_average_grades():
+def calculate_overall_average_grades(students):
     if not students:
         return None
 
@@ -54,44 +62,38 @@ def calculate_overall_average_grades():
 
 def print_student_info(student):
     student_name = student["name"]
-    average_grades = calculate_average_grade(student.get("grades"))
-    is_successful = is_student_successful(average_grades)
+    average_grade = calculate_average_grade(student.get("grades"))
 
-    print(f"Студент: {student_name}\nСредний балл: {average_grades}\n"
-          f"Статус: {"Успешен" if is_successful == True else "Не успешен"}\n")
+    print(f"Студент: {student_name}\nСредний балл: {average_grade}\n"
+          f"Статус: {"Успешен" if average_grade >= SUCCESS_THRESHOLD else "Не успешен"}\n")
 
 
-def print_overall_average_grades():
-    overall_average_grades = calculate_overall_average_grades()
+def print_overall_average_grades(students):
+    overall_average_grades = calculate_overall_average_grades(students)
 
     if overall_average_grades is not None:
         print("Общий средний балл студентов:", overall_average_grades)
     else:
         print("Список пуст!")
 
-def print_all_students_info():
+
+def print_all_students_info(students):
     for student in students:
         print_student_info(student)
 
-    print_overall_average_grades()
+    print_overall_average_grades(students)
 
 
-students = [
-        {"name": "Maxim", "grades": [60, 75, 68, 90, 87]},
-        {"name": "Albert", "grades": [76, 63, 84, 61, 67]},
-        {"name": "Andrey", "grades": [69, 69, 70, 69, 72]},
-        {"name": "Alexander", "grades": [75, 75, 75, 75, 75]},
-        {"name": "Ilona", "grades": [85, 65, 60, 77, 87]},
-    ]
+student_list = create_student_list()
 
-print_all_students_info()
+print_all_students_info(student_list)
 
-add_new_student({"name": "Michael", "grades": [80, 75, 80, 90, 90]})
-
+add_new_student({"name": "Michael", "grades": [80, 75, 80, 90, 90]}, student_list)
 print("-" * 25 + "\nДобавлен новый студент!\n" + "-" * 25)
-print_all_students_info()
 
-remove_worst_student()
+print_all_students_info(student_list)
 
+remove_worst_student(student_list)
 print("-" * 25 + "\nУдалён худший студент!\n" + "-" * 25)
-print_all_students_info()
+
+print_all_students_info(student_list)
